@@ -25,10 +25,10 @@ output "mount_target_ids" {
   value       = { for k, v in aws_efs_mount_target.target : k => v.id }
 }
 
-output "efs_user_data" {
-  description = "Map of rendered user-data scripts for new EFS volumes (requires mount_point set)"
-  value       = { for k, v in data.template_file.efs_user_data : k => v.rendered }
-}
+# output "efs_user_data" {
+#  description = "Map of rendered user-data scripts for new EFS volumes (requires mount_point set)"
+#  value       = { for k, v in data.template_file.efs_user_data : k => v.rendered }
+# }
 
 # ─── Existing EFS ─────────────────────────────────────────────────────────────
 
@@ -37,10 +37,10 @@ output "existing_efs_mount_target_ids" {
   value       = aws_efs_mount_target.existing[*].id
 }
 
-output "existing_efs_user_data" {
-  description = "List of rendered user-data scripts for existing EFS volumes"
-  value       = data.template_file.existing_efs_user_data[*].rendered
-}
+# output "existing_efs_user_data" {
+#  description = "List of rendered user-data scripts for existing EFS volumes"
+#  value       = data.template_file.existing_efs_user_data[*].rendered
+#}
 
 # ─── Security Group ───────────────────────────────────────────────────────────
 
