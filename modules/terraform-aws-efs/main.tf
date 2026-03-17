@@ -201,11 +201,11 @@ resource "aws_efs_mount_target" "existing" {
 # }
 
 # User-data for existing EFS volumes
-data "template_file" "existing_efs_user_data" {
-  count    = var.additional_existing_efs_volumes != null ? length(var.additional_existing_efs_volumes) : 0
-  template = file("${path.module}/efs-user-data.sh.tpl")
-  vars = {
-    efs_dns_name    = data.aws_efs_file_system.existing[count.index].dns_name
-    efs_mount_point = var.additional_existing_efs_volumes[count.index].mount_point
-  }
-}
+# data "template_file" "existing_efs_user_data" {
+#  count    = var.additional_existing_efs_volumes != null ? length(var.additional_existing_efs_volumes) : 0
+#  template = file("${path.module}/efs-user-data.sh.tpl")
+#  vars = {
+#    efs_dns_name    = data.aws_efs_file_system.existing[count.index].dns_name
+#    efs_mount_point = var.additional_existing_efs_volumes[count.index].mount_point
+#  }
+# }
