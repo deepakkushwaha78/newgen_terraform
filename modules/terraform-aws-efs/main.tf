@@ -187,18 +187,18 @@ resource "aws_efs_mount_target" "existing" {
 # ─── User-Data Templates ──────────────────────────────────────────────────────
 
 # User-data for new EFS volumes (keyed by efs_configs key)
-data "template_file" "efs_user_data" {
-  for_each = {
-    for k, v in var.efs_configs : k => v
-    if v.mount_point != null
-  }
-
-  template = file("${path.module}/efs-user-data.sh.tpl")
-  vars = {
-    efs_dns_name    = aws_efs_file_system.main[each.key].dns_name
-    efs_mount_point = each.value.mount_point
-  }
-}
+# data "template_file" "efs_user_data" {
+#   for_each = {
+#    for k, v in var.efs_configs : k => v
+#    if v.mount_point != null
+#  }
+#
+#  template = file("${path.module}/efs-user-data.sh.tpl")
+#  vars = {
+#    efs_dns_name    = aws_efs_file_system.main[each.key].dns_name
+#    efs_mount_point = each.value.mount_point
+#  }
+# }
 
 # User-data for existing EFS volumes
 data "template_file" "existing_efs_user_data" {
