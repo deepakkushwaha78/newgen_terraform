@@ -1,7 +1,7 @@
 #########################
 # Private IAM Policies
 #########################
-data "aws_iam_policy_document" "private" {
+data "aws_iam_policy_document" "ecr_private_repo_policy" {
   for_each = local.private_repos
 
   statement {
@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "private" {
 #########################
 # Private ECR Repositories
 #########################
-resource "aws_ecr_repository" "private" {
+resource "aws_ecr_repository" "ecr_private_repo" {
   for_each             = local.private_repos
   name                 = each.key
   image_tag_mutability = var.image_tag_mutability
@@ -56,27 +56,26 @@ resource "aws_ecr_repository" "private" {
   }
 
   tags = merge(
+    local.common_tags,
     {
-      Name        = each.key
-      PROVISIONER = "Terraform"
-    },
-    var.tags
+      Name = each.key
+    }
   )
 }
 
-resource "aws_ecr_repository_policy" "private" {
+resource "aws_ecr_repository_policy" "ecr_private_repo_policy" {
   for_each   = local.private_repos
-  repository = aws_ecr_repository.private[each.key].name
-  policy     = data.aws_iam_policy_document.private[each.key].json
+  repository = aws_ecr_repository.ecr_private_repo[each.key].name
+  policy     = data.aws_iam_policy_document.ecr_private_repo_policy[each.key].json
 }
 
-resource "aws_ecr_lifecycle_policy" "private" {
+resource "aws_ecr_lifecycle_policy" "ecr_private_repo_lifecycle" {
   for_each = {
     for name, config in local.private_repos :
     name => config if config.max_untagged_image_count != null || config.max_tagged_image_count != null
   }
 
-  repository = aws_ecr_repository.private[each.key].name
+  repository = aws_ecr_repository.ecr_private_repo[each.key].name
 
   policy = jsonencode({
     rules = [
@@ -108,7 +107,7 @@ resource "aws_ecr_lifecycle_policy" "private" {
 #########################
 # Public ECR Repositories
 #########################
-resource "aws_ecrpublic_repository" "public" {
+resource "aws_ecrpublic_repository" "ecr_public_repo" {
   for_each        = local.public_repos
   repository_name = each.key
 
@@ -125,17 +124,16 @@ resource "aws_ecrpublic_repository" "public" {
   }
 
   tags = merge(
+    local.common_tags,
     {
-      Name        = each.key
-      PROVISIONER = "Terraform"
-    },
-    var.tags
+      Name = each.key
+    }
   )
 }
 
-resource "aws_ecrpublic_repository_policy" "public" {
+resource "aws_ecrpublic_repository_policy" "ecr_public_repo_policy" {
   for_each        = local.public_repos
-  repository_name = aws_ecrpublic_repository.public[each.key].repository_name
+  repository_name = aws_ecrpublic_repository.ecr_public_repo[each.key].repository_name
 
   policy = jsonencode({
     Version = "2008-10-17"
