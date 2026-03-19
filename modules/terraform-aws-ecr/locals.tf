@@ -14,4 +14,11 @@ locals {
     for name, config in var.repo_details :
     name => config if config.repository_type == "public"
   }
+
+  common_tags = merge(
+    var.tags,
+    {
+      Customer-Code = var.ecr_tags
+    }
+  )
 }
