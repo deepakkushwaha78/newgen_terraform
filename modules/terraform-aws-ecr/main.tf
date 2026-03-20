@@ -56,10 +56,10 @@ resource "aws_ecr_repository" "ecr_private_repo" {
   }
 
   tags = merge(
-    local.common_tags,
     {
       Name = each.key
-    }
+    },
+    local.common_tags
   )
 }
 
@@ -124,10 +124,10 @@ resource "aws_ecrpublic_repository" "ecr_public_repo" {
   }
 
   tags = merge(
-    local.common_tags,
     {
       Name = each.key
-    }
+    },
+    local.common_tags
   )
 }
 
