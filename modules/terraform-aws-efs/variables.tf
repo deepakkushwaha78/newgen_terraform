@@ -1,14 +1,14 @@
 # ─── Naming ───────────────────────────────────────────────────────────────────
 
-variable "env" {
-  description = "Environment name (e.g. dev, prod)"
-  type        = string
-}
+# variable "env" {
+#   description = "Environment name (e.g. dev, prod)"
+#   type        = string
+# }
 
-variable "app" {
-  description = "Application name"
-  type        = string
-}
+# variable "app" {
+#   description = "Application name"
+#   type        = string
+# }
 
 variable "owner" {
   description = "Owner tag value"
@@ -21,6 +21,18 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+# variable "program" {
+#   description = "Project/Program name"
+#   type        = string
+#   default     = ""
+# }
+
+# variable "efs_tags" {
+#   description = "Tag for EFS specific resources"
+#   type        = string
+#   default     = ""
+# }
 
 # ─── Security Group ───────────────────────────────────────────────────────────
 
