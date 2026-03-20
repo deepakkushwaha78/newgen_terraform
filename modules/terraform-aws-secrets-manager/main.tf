@@ -6,10 +6,10 @@ resource "aws_secretsmanager_secret" "secret" {
   recovery_window_in_days = var.recovery_window_in_days
 
   tags = merge(
-    local.common_tags,
     {
       Name = var.name
     },
+    local.common_tags,
     var.used_for_service != null ? { Used_For_Service = var.used_for_service } : {}
   )
 }
