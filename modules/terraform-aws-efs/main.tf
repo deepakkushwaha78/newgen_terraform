@@ -7,7 +7,7 @@ resource "aws_security_group" "efs_sg" {
   vpc_id      = var.vpc_id
 
   tags = merge(local.common_tags, {
-    Name = "${local.base_name}-${var.security_group_name}"
+    Name = var.security_group_name
   })
 }
 
@@ -70,8 +70,7 @@ resource "aws_efs_file_system" "main" {
     local.common_tags,
     each.value.tags,
     {
-      Name    = "${local.base_name}-${each.key}"
-      EFSName = each.key
+      Name    = each.key
     }
   )
 }
@@ -162,8 +161,7 @@ resource "aws_efs_access_point" "ap" {
     local.common_tags,
     var.efs_configs[each.value.efs_key].tags,
     {
-      Name    = "${local.base_name}-${each.value.efs_key}-${each.value.ap_key}"
-      EFSName = each.value.efs_key
+      Name    = "${each.value.efs_key}-${each.value.ap_key}"
     }
   )
 }
