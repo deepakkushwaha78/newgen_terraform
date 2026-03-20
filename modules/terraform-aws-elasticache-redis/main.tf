@@ -4,9 +4,12 @@ resource "aws_elasticache_subnet_group" "this" {
   name       = var.subnet_group_name != "" ? var.subnet_group_name : "${local.base_name}-subnetgrp"
   subnet_ids = var.subnet_ids
 
-  tags = merge(local.common_tags, {
-    Name = var.subnet_group_name != "" ? var.subnet_group_name : "${local.base_name}-subnetgrp"
-  })
+  tags = merge(
+    {
+      Name = var.subnet_group_name != "" ? var.subnet_group_name : "${local.base_name}-subnetgrp"
+    },
+    local.common_tags
+  )
 }
 
 # ── Security Group (only if create_default_security_group = true) ──
@@ -16,9 +19,12 @@ resource "aws_security_group" "this" {
   name_prefix = var.security_group_name == "" ? "${local.base_name}-sg" : null
   vpc_id      = var.vpc_id
 
-  tags = merge(local.common_tags, {
-    Name = var.security_group_name != "" ? var.security_group_name : "${local.base_name}-sg"
-  })
+  tags = merge(
+    {
+      Name = var.security_group_name != "" ? var.security_group_name : "${local.base_name}-sg"
+    },
+    local.common_tags
+  )
 }
 
 resource "aws_security_group_rule" "ingress" {
@@ -55,9 +61,12 @@ resource "aws_elasticache_parameter_group" "this" {
     }
   }
 
-  tags = merge(local.common_tags, {
-    Name = "pg-${local.base_name}"
-  })
+  tags = merge(
+    {
+      Name = "pg-${local.base_name}"
+    },
+    local.common_tags
+  )
 }
 
 # ── Redis Replication Group ───────────────────────────────────────
@@ -102,7 +111,10 @@ resource "aws_elasticache_replication_group" "this" {
   maintenance_window         = var.maintenance_window
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
-  tags = merge(local.common_tags, {
-    Name = local.cluster_name
-  })
+  tags = merge(
+    {
+      Name = local.cluster_name
+    },
+    local.common_tags
+  )
 }
