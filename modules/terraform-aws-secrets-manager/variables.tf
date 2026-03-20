@@ -1,13 +1,3 @@
-variable "program" {
-  description = "Project/Program name"
-  type        = string
-}
-
-variable "secrets_manager_tags" {
-  description = "Customer code for Secrets Manager tags"
-  type        = string
-}
-
 variable "create_secret" {
   description = "Whether to create the secret. Set to false to disable all resources."
   type        = bool
