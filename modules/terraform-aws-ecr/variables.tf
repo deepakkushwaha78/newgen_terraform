@@ -1,15 +1,15 @@
 ##################################
 # Repository Configuration
 ##################################
-variable "program" {
-  description = "Project/Program name"
-  type        = string
-}
+# variable "program" {
+#   description = "Project/Program name"
+#   type        = string
+# }
 
-variable "ecr_tags" {
-  description = "Customer code for ECR tags"
-  type        = string
-}
+# variable "ecr_tags" {
+#   description = "Customer code for ECR tags"
+#   type        = string
+# }
 
 variable "repo_details" {
   description = "Map of repository names to their configuration. Supports both private and public repos."
