@@ -1,15 +1,21 @@
 # ── Naming ───────────────────────────────────────────────────────
-variable "env" {
-  type        = string
-  description = "Environment (e.g. dev, prod)"
-}
-variable "app" {
-  type        = string
-  description = "Application name"
-}
-variable "owner" {
-  type        = string
-  description = "Owner/team name for tagging"
+# variable "env" {
+#   type        = string
+#   description = "Environment (e.g. dev, prod)"
+# }
+# variable "app" {
+#   type        = string
+#   description = "Application name"
+# }
+# variable "owner" {
+#   type        = string
+#   description = "Owner/team name for tagging"
+# }
+
+variable "tags" {
+  description = "A mapping of tags to assign to the resource"
+  type        = map(string)
+  default     = {}
 }
 
 # ── Cluster Identity ─────────────────────────────────────────────
